@@ -8,4 +8,8 @@ public class Movies {
   private String movieName;
   private String movieGenre;
   private int count;
+
+  public int getId() {
+    return id;
+  }
 }

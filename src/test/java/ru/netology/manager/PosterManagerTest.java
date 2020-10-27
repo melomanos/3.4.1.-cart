@@ -3,11 +3,12 @@ package ru.netology.manager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import ru.netology.domain.Movies;
+import ru.netology.repository.PosterRepository;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 public class PosterManagerTest {
-  PosterManager manager = new PosterManager();
+  PosterRepository repository = new PosterRepository();
 
   Movies first = new Movies(1, "Rambo", "Action", 1);
   Movies second = new Movies(2, "Terminator", "Sci-fi", 1);
@@ -23,91 +24,113 @@ public class PosterManagerTest {
 
   @BeforeEach
   public void setUp() {
-    manager.add(first);
-    manager.add(second);
-    manager.add(third);
-    manager.add(fourth);
-    manager.add(fifth);
-    manager.add(sixth);
-    manager.add(seventh);
-    manager.add(eighth);
-    manager.add(ninth);
-    manager.add(tenth);
-    manager.add(eleventh);
-  }
-
-  @Test
-  public void shouldAddMovie() {
-
-    Movies[] actual = manager.getAll();
-    Movies[] expected = new Movies[]{eleventh, tenth, ninth, eighth, seventh, sixth, fifth, fourth, third, second, first};
-
-    assertArrayEquals(expected, actual);
-  }
-
-  @Test
-  public void shouldAddLastTenMovies() {
-
-    Movies[] actual = manager.getLastTenMovies(10);
-    Movies[] expected = new Movies[]{eleventh, tenth, ninth, eighth, seventh, sixth, fifth, fourth, third, second};
-
-    assertArrayEquals(expected, actual);
-  }
-
-  @Test
-  public void shouldAddUnderTenMovies() {
-
-    Movies[] actual = manager.getLastTenMovies(5);
-    Movies[] expected = new Movies[]{eleventh, tenth, ninth, eighth, seventh};
-
-    assertArrayEquals(expected, actual);
-  }
-
-  @Test
-  public void shouldAddOverTenMovies() {
-
-    Movies[] actual = manager.getLastTenMovies(11);
-    Movies[] expected = new Movies[]{eleventh, tenth, ninth, eighth, seventh, sixth, fifth, fourth, third, second};
-
-    assertArrayEquals(expected, actual);
-  }
-
-//  @Test
-//  public void shouldRemoveIfExists() {
-//    PosterManager manager = new PosterManager();
-//    int idToRemove = 1;
-//    Movies first = new Movies(1, 1, "first", 1, 1);
-//    Movies second = new Movies(2, 2, "second", 1, 1);
-//    Movies third = new Movies(3, 3, "third", 1, 1);
 //    manager.add(first);
 //    manager.add(second);
 //    manager.add(third);
-//
-//    manager.removeById(idToRemove);
+//    manager.add(fourth);
+//    manager.add(fifth);
+//    manager.add(sixth);
+//    manager.add(seventh);
+//    manager.add(eighth);
+//    manager.add(ninth);
+//    manager.add(tenth);
+//    manager.add(eleventh);
+    repository.save(first);
+    repository.save(second);
+    repository.save(third);
+    repository.save(fourth);
+    repository.save(fifth);
+    repository.save(sixth);
+    repository.save(seventh);
+    repository.save(eighth);
+    repository.save(ninth);
+    repository.save(tenth);
+    repository.save(eleventh);
+  }
+
+//  @Test
+//  public void shouldAddMovie() {
 //
 //    Movies[] actual = manager.getAll();
-//    Movies[] expected = new Movies[]{third, second};
+//    Movies[] expected = new Movies[]{eleventh, tenth, ninth, eighth, seventh, sixth, fifth, fourth, third, second, first};
 //
-////    assertEquals(expected, actual);
 //    assertArrayEquals(expected, actual);
 //  }
 //
 //  @Test
-//  public void shouldNotRemoveIfNotExists() {
-//    PosterManager manager = new PosterManager();
-//    int idToRemove = 4;
-//    Movies first = new Movies(1, 1, "first", 1, 1);
-//    Movies second = new Movies(2, 2, "second", 1, 1);
-//    Movies third = new Movies(3, 3, "third", 1, 1);
-//    manager.add(first);
-//    manager.add(second);
-//    manager.add(third);
+//  public void shouldAddLastTenMovies() {
 //
-//    manager.removeById(idToRemove);
-//
-//    Movies[] actual = manager.getAll();
-//    Movies[] expected = new Movies[]{third, second, first};
+//    Movies[] actual = manager.getLastTenMovies(10);
+//    Movies[] expected = new Movies[]{eleventh, tenth, ninth, eighth, seventh, sixth, fifth, fourth, third, second};
 //
 //    assertArrayEquals(expected, actual);
 //  }
+//
+//  @Test
+//  public void shouldAddUnderTenMovies() {
+//
+//    Movies[] actual = manager.getLastTenMovies(5);
+//    Movies[] expected = new Movies[]{eleventh, tenth, ninth, eighth, seventh};
+//
+//    assertArrayEquals(expected, actual);
+//  }
+//
+//  @Test
+//  public void shouldAddOverTenMovies() {
+//
+//    Movies[] actual = manager.getLastTenMovies(11);
+//    Movies[] expected = new Movies[]{eleventh, tenth, ninth, eighth, seventh, sixth, fifth, fourth, third, second};
+//
+//    assertArrayEquals(expected, actual);
+//  }
+//
+//  @Test
+//  public void shouldSaveMovie() {
+//
+//    Movies[] actual = manager.getAll();
+//    Movies[] expected = new Movies[]{eleventh, tenth, ninth, eighth, seventh, sixth, fifth, fourth, third, second, first};
+//
+//    assertArrayEquals(expected, actual);
+//  }
+
+  @Test
+  public void shouldFindAll() {
+
+    Movies[] actual = repository.findAll();
+    Movies[] expected = new Movies[]{first, second, third, fourth, fifth, sixth, seventh, eighth, ninth, tenth, eleventh};
+
+    assertArrayEquals(expected, actual);
+  }
+
+  @Test
+  public void shouldFindById() {
+
+    int idToFind = 6;
+
+    Movies[] actual = repository.findById(idToFind);
+    Movies[] expected = new Movies[]{sixth};
+
+    assertArrayEquals(expected, actual);
+  }
+
+  @Test
+  public void shouldRemoveById() {
+
+    int idToRemove = 5;
+
+    Movies[] actual = repository.removeById(idToRemove);
+    Movies[] expected = new Movies[]{first, second, third, fourth, sixth, seventh, eighth, ninth, tenth, eleventh};
+
+    assertArrayEquals(expected, actual);
+  }
+
+  @Test
+  public void shouldRemoveAll() {
+
+    Movies[] actual = repository.removeAll();
+    Movies[] expected = new Movies[]{};
+
+    assertArrayEquals(expected, actual);
+  }
+
 }

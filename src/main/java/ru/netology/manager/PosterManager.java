@@ -1,6 +1,7 @@
 package ru.netology.manager;
 
 import ru.netology.domain.Movies;
+import ru.netology.repository.PosterRepository;
 
 import java.util.Arrays;
 
@@ -43,5 +44,31 @@ public class PosterManager {
     }
 
     return Arrays.copyOfRange(result, 0, moviesMax);
+  }
+
+  private PosterRepository repository;
+
+  private PosterManager(PosterRepository repository) {
+    this.repository = repository;
+  }
+
+  public Movies[] findAll() {
+    return movies;
+  }
+
+  public void save(Movies item) {
+    repository.save(item);
+  }
+
+  public Movies[] findById(int id) {
+    return movies;
+  }
+
+  public Movies[] removeById(int id) {
+    return movies;
+  }
+
+  public Movies[] removeAll() {
+    return movies;
   }
 }
