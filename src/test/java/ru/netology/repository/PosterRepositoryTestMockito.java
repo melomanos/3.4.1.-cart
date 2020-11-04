@@ -1,19 +1,22 @@
-package ru.netology.manager;
+package ru.netology.repository;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import ru.netology.domain.Movies;
-import ru.netology.repository.PosterRepository;
+import ru.netology.manager.PosterManager;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-public class PosterManagerTestNonEmpty {
-    PosterRepository repository = new PosterRepository();
+public class PosterRepositoryTestMockito {
 
+    @Mock
+    private PosterRepository repository;
+    @InjectMocks
     private PosterManager manager;
 
     Movies first = new Movies(1, "Rambo", "Action", 1);
@@ -28,34 +31,38 @@ public class PosterManagerTestNonEmpty {
     Movies tenth = new Movies(10, "Sinister", "Horror", 1);
     Movies eleventh = new Movies(11, "Revolver", "Crime", 1);
 
-    @BeforeEach
-    public void setUp() {
-        repository.save(first);
-        repository.save(second);
-        repository.save(third);
-        repository.save(fourth);
-        repository.save(fifth);
-        repository.save(sixth);
-        repository.save(seventh);
-        repository.save(eighth);
-        repository.save(ninth);
-        repository.save(tenth);
-        repository.save(eleventh);
-    }
-
     @Test
     public void shouldRemoveById() {
 
         int idToRemove = 5;
 
-        Movies[] returned = new Movies[0];
+        Movies[] returned = new Movies[]{first, second, third, fourth, sixth, seventh, eighth, ninth, tenth, eleventh};
         doReturn(returned).when(repository).findAll();
         doNothing().when(repository).removeById(idToRemove);
 
         manager.removeById(idToRemove);
 
         Movies[] actual = manager.getAll();
-        Movies[] expected = new Movies[]{first, second, third, fourth, sixth, seventh, eighth, ninth, tenth, eleventh};
+        Movies[] expected = new Movies[]{eleventh, tenth, ninth, eighth, seventh, sixth, fourth, third, second, first};
+
+        assertArrayEquals(expected, actual);
+
+        verify(repository).removeById(idToRemove);
+    }
+
+    @Test
+    public void shouldRemoveByIdNotExist() {
+
+        int idToRemove = 25;
+
+        Movies[] returned = new Movies[]{first, second, third, fourth, fifth, sixth, seventh, eighth, ninth, tenth, eleventh};
+        doReturn(returned).when(repository).findAll();
+        doNothing().when(repository).removeById(idToRemove);
+
+        manager.removeById(idToRemove);
+
+        Movies[] actual = manager.getAll();
+        Movies[] expected = new Movies[]{eleventh, tenth, ninth, eighth, seventh, sixth, fifth, fourth, third, second, first};
 
         assertArrayEquals(expected, actual);
 

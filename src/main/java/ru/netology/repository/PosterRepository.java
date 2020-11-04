@@ -25,7 +25,7 @@ public class PosterRepository {
         movies = tmp;
     }
 
-    public Movies[] findById(int id) {
+    public Movies findById(int id) {
         Movies[] tmp = new Movies[movies.length];
         Movies[] result = new Movies[1];
         int idResult = id - 1;
@@ -36,10 +36,10 @@ public class PosterRepository {
         }
 
         movies = result;
-        return movies;
+        return movies[0];
     }
 
-    public Movies[] removeById(int id) {
+    public void removeById(int id) {
         int length = movies.length - 1;
         Movies[] tmp = new Movies[length];
         int index = 0;
@@ -51,13 +51,9 @@ public class PosterRepository {
         }
 
         movies = tmp;
-        return movies;
     }
 
-    public Movies[] removeAll() {
-        Movies[] tmp = new Movies[0];
-
-        movies = tmp;
-        return movies;
+    public void removeAll() {
+        this.movies = new Movies[0];
     }
 }
