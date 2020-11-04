@@ -32,82 +32,35 @@ public class PosterManagerTest {
     manager.add(seventh);
     manager.add(eighth);
     manager.add(ninth);
-    manager.add(tenth);
-    manager.add(eleventh);
   }
 
   @Test
-  public void shouldAddMovie() {
+  public void shouldAddLastNineMovies() {
 
     Movies[] actual = manager.getAll();
-    Movies[] expected = new Movies[]{eleventh, tenth, ninth, eighth, seventh, sixth, fifth, fourth, third, second, first};
+    Movies[] expected = new Movies[]{ninth, eighth, seventh, sixth, fifth, fourth, third, second, first};
 
     assertArrayEquals(expected, actual);
   }
 
   @Test
   public void shouldAddLastTenMovies() {
+    manager.add(tenth);
 
-    Movies[] actual = manager.getLastTenMovies(10);
-    Movies[] expected = new Movies[]{eleventh, tenth, ninth, eighth, seventh, sixth, fifth, fourth, third, second};
-
-    assertArrayEquals(expected, actual);
-  }
-
-  @Test
-  public void shouldAddUnderTenMovies() {
-
-    Movies[] actual = manager.getLastTenMovies(5);
-    Movies[] expected = new Movies[]{eleventh, tenth, ninth, eighth, seventh};
+    Movies[] actual = manager.getAll();
+    Movies[] expected = new Movies[]{tenth, ninth, eighth, seventh, sixth, fifth, fourth, third, second, first};
 
     assertArrayEquals(expected, actual);
   }
 
   @Test
-  public void shouldAddOverTenMovies() {
+  public void shouldAddLastElevenMovies() {
+    manager.add(tenth);
+    manager.add(eleventh);
 
-    Movies[] actual = manager.getLastTenMovies(11);
+    Movies[] actual = manager.getAll();
     Movies[] expected = new Movies[]{eleventh, tenth, ninth, eighth, seventh, sixth, fifth, fourth, third, second};
 
     assertArrayEquals(expected, actual);
   }
-
-//  @Test
-//  public void shouldRemoveIfExists() {
-//    PosterManager manager = new PosterManager();
-//    int idToRemove = 1;
-//    Movies first = new Movies(1, 1, "first", 1, 1);
-//    Movies second = new Movies(2, 2, "second", 1, 1);
-//    Movies third = new Movies(3, 3, "third", 1, 1);
-//    manager.add(first);
-//    manager.add(second);
-//    manager.add(third);
-//
-//    manager.removeById(idToRemove);
-//
-//    Movies[] actual = manager.getAll();
-//    Movies[] expected = new Movies[]{third, second};
-//
-////    assertEquals(expected, actual);
-//    assertArrayEquals(expected, actual);
-//  }
-//
-//  @Test
-//  public void shouldNotRemoveIfNotExists() {
-//    PosterManager manager = new PosterManager();
-//    int idToRemove = 4;
-//    Movies first = new Movies(1, 1, "first", 1, 1);
-//    Movies second = new Movies(2, 2, "second", 1, 1);
-//    Movies third = new Movies(3, 3, "third", 1, 1);
-//    manager.add(first);
-//    manager.add(second);
-//    manager.add(third);
-//
-//    manager.removeById(idToRemove);
-//
-//    Movies[] actual = manager.getAll();
-//    Movies[] expected = new Movies[]{third, second, first};
-//
-//    assertArrayEquals(expected, actual);
-//  }
 }

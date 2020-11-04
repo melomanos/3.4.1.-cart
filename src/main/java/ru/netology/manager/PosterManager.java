@@ -2,10 +2,17 @@ package ru.netology.manager;
 
 import ru.netology.domain.Movies;
 
-import java.util.Arrays;
-
 public class PosterManager {
   private Movies[] movies = new Movies[0];
+
+  int posterLength = 10;
+
+  public PosterManager(int posterLength) {
+    this.posterLength = posterLength;
+  }
+
+  public PosterManager() {
+  }
 
   public void add(Movies item) {
     // создаём новый массив размером на единицу больше
@@ -24,7 +31,7 @@ public class PosterManager {
   }
 
   public Movies[] getAll() {
-    Movies[] result = new Movies[movies.length];
+    Movies[] result = new Movies[Math.min(movies.length, posterLength)];
     // перебираем массив в прямом порядке
     // но кладём в результаты в обратном
     for (int i = 0; i < result.length; i++) {
@@ -34,14 +41,14 @@ public class PosterManager {
     return result;
   }
 
-  public Movies[] getLastTenMovies(int moviesQuantity) {
-    Movies[] result = getAll();
-    int moviesMax = 10;
-
-    if (moviesQuantity < moviesMax) {
-      moviesMax = moviesQuantity;
-    }
-
-    return Arrays.copyOfRange(result, 0, moviesMax);
-  }
+//  public Movies[] getLastTenMovies(int moviesQuantity) {
+//    Movies[] result = getAll();
+//    int moviesMax = 10;
+//
+//    if (moviesQuantity < moviesMax) {
+//      moviesMax = moviesQuantity;
+//    }
+//
+//    return Arrays.copyOfRange(result, 0, moviesMax);
+//  }
 }
