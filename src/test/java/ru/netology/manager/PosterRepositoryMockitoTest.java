@@ -1,4 +1,4 @@
-package ru.netology.repository;
+package ru.netology.manager;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -6,13 +6,13 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import ru.netology.domain.Movies;
-import ru.netology.manager.PosterManager;
+import ru.netology.repository.PosterRepository;
 
-import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-public class PosterRepositoryTestMockito {
+public class PosterRepositoryMockitoTest {
 
     @Mock
     private PosterRepository repository;
@@ -36,14 +36,14 @@ public class PosterRepositoryTestMockito {
 
         int idToRemove = 5;
 
-        Movies[] returned = new Movies[]{first, second, third, fourth, sixth, seventh, eighth, ninth, tenth, eleventh};
+        Movies[] returned = new Movies[]{first, second, third, fourth, fifth, sixth, seventh, eighth, ninth, tenth, eleventh};
         doReturn(returned).when(repository).findAll();
         doNothing().when(repository).removeById(idToRemove);
 
         manager.removeById(idToRemove);
 
         Movies[] actual = manager.getAll();
-        Movies[] expected = new Movies[]{eleventh, tenth, ninth, eighth, seventh, sixth, fourth, third, second, first};
+        Movies[] expected = new Movies[]{eleventh, tenth, ninth, eighth, seventh, sixth, fifth, fourth, third, second, first};
 
         assertArrayEquals(expected, actual);
 
@@ -67,5 +67,54 @@ public class PosterRepositoryTestMockito {
         assertArrayEquals(expected, actual);
 
         verify(repository).removeById(idToRemove);
+    }
+
+    @Test
+    public void shouldFindById() {
+
+        int idToFind = 7;
+
+        Movies[] returned = new Movies[]{first, second, third, fourth, fifth, sixth, seventh, eighth, ninth, tenth, eleventh};
+
+        manager.findById(idToFind);
+
+        Movies actual = manager.findById(idToFind);
+        Movies expected = null;
+
+        assertNull(actual);
+    }
+
+    @Test
+    public void shouldRemoveAll() {
+
+        Movies[] returned = new Movies[]{first, second, third, fourth, fifth, sixth, seventh, eighth, ninth, tenth, eleventh};
+        doReturn(returned).when(repository).findAll();
+        doNothing().when(repository).removeAll();
+
+        manager.removeAll();
+
+        Movies[] actual = manager.getAll();
+        Movies[] expected = new Movies[]{eleventh, tenth, ninth, eighth, seventh, sixth, fifth, fourth, third, second, first};
+
+        assertArrayEquals(expected, actual);
+
+        verify(repository).removeAll();
+    }
+
+    @Test
+    public void shouldAddNewItem() {
+
+        Movies[] returned = new Movies[]{first, second, third, fourth, fifth, sixth, seventh, eighth, ninth, tenth, eleventh};
+        doReturn(returned).when(repository).findAll();
+        doNothing().when(repository).save(eleventh);
+
+        manager.save(eleventh);
+
+        Movies[] actual = manager.getAll();
+        Movies[] expected = new Movies[]{eleventh, tenth, ninth, eighth, seventh, sixth, fifth, fourth, third, second, first};
+
+        assertArrayEquals(expected, actual);
+
+        verify(repository).save(eleventh);
     }
 }

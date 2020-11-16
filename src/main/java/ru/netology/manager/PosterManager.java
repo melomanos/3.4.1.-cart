@@ -26,4 +26,16 @@ public class PosterManager {
   public void removeById(int id) {
     repository.removeById(id);
   }
+
+  public void save(Movies item) {
+    repository.save(item);
+  }
+
+  public Movies findById(int id) {
+    return repository.findById(id);
+  }
+
+  public void removeAll() {
+    repository.removeAll();
+  }
 }
