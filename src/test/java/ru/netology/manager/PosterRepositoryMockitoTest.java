@@ -74,14 +74,13 @@ public class PosterRepositoryMockitoTest {
 
         int idToFind = 7;
 
-        Movies[] returned = new Movies[]{first, second, third, fourth, fifth, sixth, seventh, eighth, ninth, tenth, eleventh};
-
-        manager.findById(idToFind);
+        Movies returned = seventh;
+        doReturn(returned).when(repository).findById(idToFind);
 
         Movies actual = manager.findById(idToFind);
-        Movies expected = null;
+        Movies expected = seventh;
 
-        assertNull(actual);
+        assertEquals(expected, actual);
     }
 
     @Test
